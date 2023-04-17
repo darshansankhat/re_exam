@@ -14,6 +14,11 @@ class Home_scrren extends StatefulWidget {
 }
 
 class _Home_scrrenState extends State<Home_scrren> {
+
+  TextEditingController txtname=TextEditingController();
+  TextEditingController txtstd=TextEditingController();
+  TextEditingController txtid=TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -27,17 +32,17 @@ class _Home_scrrenState extends State<Home_scrren> {
         backgroundColor: Colors.white,
         body: ListView.builder(
           itemBuilder: (context, index) {
-            return View(EditList[index]);
+            return View(EditList[index], index);
           },
           itemCount: EditList.length,
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Navigator.pushNamed(context, 'add').then((value) {
-              setState(() {
-
-              });
-            },);
+            Navigator.pushNamed(context, 'add').then(
+              (value) {
+                setState(() {});
+              },
+            );
           },
           child: Icon(Icons.add),
         ),
@@ -45,7 +50,7 @@ class _Home_scrrenState extends State<Home_scrren> {
     );
   }
 
-  Widget View(DataModel d1) {
+  Widget View(DataModel d1, index) {
     return Container(
       margin: EdgeInsets.all(7),
       decoration: BoxDecoration(
@@ -71,11 +76,108 @@ class _Home_scrrenState extends State<Home_scrren> {
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.edit,size: 30,color: Colors.black,),
-            SizedBox(width: 10,),
-            InkWell(onTap: () {
-              EditList
-            },child: Icon(Icons.delete,size: 30,color: Colors.red)),
+            InkWell(
+              onTap: () {
+                showDialog(context: context, builder: (context) {
+                  return AlertDialog(
+                    content: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        //text
+                        Text("UpDate",style: GoogleFonts.anton(fontSize: 25,color: Colors.blue),),
+                        //name
+                        SizedBox(height: 20,),
+                        TextFormField(
+
+                            controller: txtname=TextEditingController(text: "${EditList[index].Name}"),
+
+                          decoration: InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                                borderSide: BorderSide(color: Colors.blue),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                                borderSide: BorderSide(color: Colors.blue,width: 2),
+                              ),
+                              prefixIcon: Icon(Icons.person,size: 25,color: Colors.blue,),
+                              label: Text("Name",style: TextStyle(fontSize: 18,color: Colors.black),)
+                          ),
+                        ),
+                        //stad
+                        SizedBox(height: 10),
+                        TextFormField(
+                          controller: txtstd=TextEditingController(text: "${EditList[index].std}"),
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                                borderSide: BorderSide(color: Colors.blue),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                                borderSide: BorderSide(color: Colors.blue,width: 2),
+                              ),
+                              prefixIcon: Icon(Icons.pin,size: 25,color: Colors.blue,),
+                              label: Text("Stander",style: TextStyle(fontSize: 18,color: Colors.black),)
+                          ),
+                        ),
+                        //gr
+                        SizedBox(height: 10),
+                        TextFormField(
+                          controller: txtid=TextEditingController(text: "${EditList[index].grid}"),
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                                borderSide: BorderSide(color: Colors.blue),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                                borderSide: BorderSide(color: Colors.blue,width: 2),
+                              ),
+                              prefixIcon: Icon(Icons.badge,size: 25,color: Colors.blue,),
+                              label: Text("Gr-Id",style: TextStyle(fontSize: 18,color: Colors.black),)
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        ElevatedButton(onPressed: () {
+                          setState(() {
+                            EditList[index].Name=txtname.text;
+                            EditList[index].std=txtstd.text;
+                            EditList[index].grid=txtid.text;
+                          });
+                          Navigator.pop(context);
+                        }, child: Text("Update",style: TextStyle(fontSize: 18),))
+                      ],
+                    ),
+                  );
+                },);
+              },
+              child: Icon(
+                Icons.edit,
+                size: 30,
+                color: Colors.black,
+              ),
+            ),
+            SizedBox(
+              width: 20,
+            ),
+            InkWell(
+                onTap: () {
+                  setState(() {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text(
+                        "Dilet Successfully",
+                        style: TextStyle(fontSize: 18, color: Colors.white),
+                      ),
+                      behavior: SnackBarBehavior.floating,
+                      backgroundColor: Colors.black26,
+                    ));
+                    EditList.removeAt(index);
+                  });
+                },
+                child: Icon(Icons.delete, size: 30, color: Colors.red)),
           ],
         ),
       ),

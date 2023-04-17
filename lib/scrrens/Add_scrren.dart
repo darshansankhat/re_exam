@@ -22,10 +22,15 @@ class _Add_scrrenState extends State<Add_scrren> {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
-          leading: Icon(
-            Icons.close,
-            size: 30,
-            color: Colors.black,
+          leading: InkWell(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Icon(
+              Icons.close,
+              size: 30,
+              color: Colors.black,
+            ),
           ),
           title: Text(
             "Add Data",
@@ -75,6 +80,7 @@ class _Add_scrrenState extends State<Add_scrren> {
               SizedBox(height: 10),
               TextFormField(
                 controller: txtstd,
+                keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20),
@@ -92,6 +98,7 @@ class _Add_scrrenState extends State<Add_scrren> {
               SizedBox(height: 10),
               TextFormField(
                 controller: txtid,
+                keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20),
