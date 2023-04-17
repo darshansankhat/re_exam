@@ -25,18 +25,19 @@ class _Home_scrrenState extends State<Home_scrren> {
           centerTitle: true,
         ),
         backgroundColor: Colors.white,
-        body: Padding(
-          padding: const EdgeInsets.all(10),
-          child: ListView.builder(
-            itemBuilder: (context, index) {
-              return View(EditList[index]);
-            },
-            itemCount: EditList.length,
-          ),
+        body: ListView.builder(
+          itemBuilder: (context, index) {
+            return View(EditList[index]);
+          },
+          itemCount: EditList.length,
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
+            Navigator.pushNamed(context, 'add').then((value) {
+              setState(() {
 
+              });
+            },);
           },
           child: Icon(Icons.add),
         ),
@@ -46,6 +47,7 @@ class _Home_scrrenState extends State<Home_scrren> {
 
   Widget View(DataModel d1) {
     return Container(
+      margin: EdgeInsets.all(7),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: Colors.white,
@@ -71,7 +73,9 @@ class _Home_scrrenState extends State<Home_scrren> {
           children: [
             Icon(Icons.edit,size: 30,color: Colors.black,),
             SizedBox(width: 10,),
-            Icon(Icons.delete,size: 30,color: Colors.red),
+            InkWell(onTap: () {
+              EditList
+            },child: Icon(Icons.delete,size: 30,color: Colors.red)),
           ],
         ),
       ),
